@@ -6,13 +6,13 @@ You can easily add Shift Register to your LCD. Please refer below link for pinou
 
 As this was the most modern coded LCD shift register library i found at this time on Github,
 I decuded to fork this project from omersiar to have a "native" shift register - LCD library. 
-I removed here the SPI support, as for me was more important to be free to configure arduino pins and using as less
-libraries as possible.
+I removed here the SPI library, as for me was more important to be free to configure arduino pins and using as less
+libraries as possible. The communication type remaind anyway SPI communication, just without all the features and tools, witch are in SPI library included.
 
 This version of the library is modified thatfor to be able to add LCD support to an existing arduino project,
 even if there are only a few pin (and resources) left.
 
-This librarly basicly "compatible" with the original fork in 1 LCD envirolment if no special SPI feature is in use.
+This librarly basicly "compatible" with the original fork in 1 LCD envirolment if no special SPI library supported feature is in use.
 
 This is SPI only library, parallel and other buses (I2C or 1Wire, etc) are not supported.
 
