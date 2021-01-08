@@ -31,14 +31,26 @@
  by Gergely Kovács
  
  This example code is in the public domain.
- */
+
+ Default Hookup Between Arduino and 74HC595: 
+ Arduino D9 -> latch pin/ST_CP of 74HC595 (12)
+ Arduino D13 -> clock pin/SH_CP of 74HC595 (11)
+ Arduino D11 -> data pin/DS of 74HC595 (14)
+
+ Hookup Between LCD and 74HC595: 
+ shiftRegister pins 1,2,3,4,5,6,7 represent rs, rw, enable, d4-7 in that order
+ but we are not using RW so RW it's zero or 255
+*/
 
 // include the library code:
 #include <ShiftedLCD.h>
 
-// initialize the library with the number of the latch pin of the 74HC595 
-// (or the latch pin of the 74HC595)
-LiquidCrystal lcd(9);
+
+
+// You can initialize it only with latchPin (default clockPin is 13, default dataPin is 11):
+// LiquidCrystal lcd(9);
+// or with all the pins: latchPin, clockPin, dataPin
+LiquidCrystal lcd(9,13,11);
 
 void setup() {
   // set up the LCD's number of columns and rows: 
