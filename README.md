@@ -27,6 +27,13 @@ http://42bots.com/tutorials/arduino-controlled-lcd-using-a-shift-register-and-th
 ![alt text][logo]
 
 [logo]: http://42bots.com/wp-content/uploads/2013/12/arduino-lcd-liquidcrystal-spi-connections-v3.png "Wiring"
+Components:
+ * 10K Potentiometer
+ * 470 Ohm Resistor
+ * 74HC595 Shift register
+ * Jumper cables
+ * 1602 LCD Module
+ * Youf favorite Arduino 
 
 What Works
 
