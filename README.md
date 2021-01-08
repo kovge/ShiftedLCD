@@ -5,7 +5,7 @@ This library works with LCD displays that are modified to use 595 Shift Register
 You can easily add Shift Register to your LCD. Please refer below link for pinouts and modifing your LCD.
 
 As this was the most modern coded LCD shift register library i found at this time on Github, thanks [omersiar](https://github.com/omersiar).
-I decuded to fork this project to modify it for my project needs. 
+I decided to fork this project to modify it for my project needs. 
 
 I removed here the SPI library, as for me was more important to be free to configure arduino pins and using as less
 libraries as possible. The communication type remaind anyway SPI communication, just without all the features and tools, witch are in SPI library included.
