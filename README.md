@@ -33,13 +33,13 @@ Components:
  * 74HC595 Shift register
  * Jumper cables
  * 1602 LCD Module
- * Youf favorite Arduino 
+ * Your favorite Arduino 
 
 What Works
 
 * It seems we can use all LiquidCrystal commands
 * Hello World Example
-* Directly Hooked up with a shift register, pin configurations is completely up on you
+* Directly Hooked up with a shift register, pin configurations are completely up on you
 
 TODO
 
