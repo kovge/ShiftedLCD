@@ -1,16 +1,17 @@
-= ShiftedLCD Library for Arduino =
+# ShiftedLCD Library for Arduino
 
 Allows communication via Shift registers with alphanumerical liquid crystal displays (LCDs). 
 This library works with LCD displays that are modified to use 595 Shift Register (in this case 74HC595) pin compatible. 
 You can easily add Shift Register to your LCD. Please refer below link for pinouts and modifing your LCD.
 
-As this was the most modern coded LCD shift register library i found at this time on Github,
-I decuded to fork this project from omersiar to have a "native" shift register - LCD library. 
+As this was the most modern coded LCD shift register library i found at this time on Github, thanks [omersiar](https://github.com/omersiar).
+I decuded to fork this project to modify it for my project needs. 
+
 I removed here the SPI library, as for me was more important to be free to configure arduino pins and using as less
 libraries as possible. The communication type remaind anyway SPI communication, just without all the features and tools, witch are in SPI library included.
 
 This version of the library is modified thatfor to be able to add LCD support to an existing arduino project,
-even if there are only a few pin (and resources) left.
+even if there are only a few pin (and resources) left without a choice to change the wiring to free the predefined 13 and 11th pin.
 
 This librarly basicly "compatible" with the original fork in 1 LCD envirolment if no special SPI library supported feature is in use.
 
@@ -27,6 +28,7 @@ http://42bots.com/tutorials/arduino-controlled-lcd-using-a-shift-register-and-th
 ![alt text][logo]
 
 [logo]: http://42bots.com/wp-content/uploads/2013/12/arduino-lcd-liquidcrystal-spi-connections-v3.png "Wiring"
+
 Components:
  * 10K Potentiometer
  * 470 Ohm Resistor
@@ -35,20 +37,12 @@ Components:
  * 1602 LCD Module
  * Your favorite Arduino 
 
-What Works
+What Works?
 
-* It seems we can use all LiquidCrystal commands
-* Hello World Example
+* We can use all LiquidCrystal commands
 * Directly Hooked up with a shift register, pin configurations are completely up on you
 
-TODO
-
-[X] Simple breadboard illustration (fritzing) thanks to Stan
-
-[X] Arduino IDE 1.6 modern structure
-
-[ ] Bug Fixes
-
+## [wiki](https://github.com/kovge/ShiftedLCD/wiki)
 
 == License ==
 
