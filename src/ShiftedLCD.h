@@ -4,8 +4,6 @@
 #include <inttypes.h>
 #include "Print.h"
 
-#include <SPI.h>
-
 // commands
 #define LCD_CLEARDISPLAY 0x01
 #define LCD_RETURNHOME 0x02
@@ -46,11 +44,11 @@
 
 class LiquidCrystal : public Print {
 public:
+  //Pins to ShiftRegister 74HC595, in order ST_CP, SH_CP, DS. 74HC595 Pinout in order: 12, 11, 14   ##############
+  LiquidCrystal(uint8_t latchPin, uint8_t clockPin, uint8_t dataPin); 	// Arduino Pins Hooked up to 74HC595 #####
+  // default clockPin is 13, default dataPin is 11 on Arduino
+  LiquidCrystal(uint8_t latchPin);    
 
-  LiquidCrystal(uint8_t ssPin); //SPI to ShiftRegister 74HC595 ##########
-		
-  void initSPI(uint8_t _ssPin); //SPI ##################################
-    
   void begin(uint8_t cols, uint8_t rows, uint8_t charsize = LCD_5x8DOTS);
 
   void clear();
@@ -78,10 +76,13 @@ private:
   void spiSendOut();      // SPI ###########################################
   void write4bits(uint8_t);
   void pulseEnable();
+  void initSPI();
   
   //SPI #####################################################################
-  uint8_t _bitString; //for SPI  bit0=not used, bit1=RS, bit2=RW, bit3=Enable, bits4-7 = DB4-7
-  uint8_t _latchPin;
+  uint8_t _bitString;	//for SPI  bit0=not used, bit1=RS, bit2=RW, bit3=Enable, bits4-7 = DB4-7
+  uint8_t _latchPin;	//Pin connected to ST_CP of 74HC595
+  uint8_t _clockPin;	//Pin connected to SH_CP of 74HC595
+  uint8_t _dataPin;	//Pin connected to DS of 74HC595
   
   uint8_t _displayfunction;
   uint8_t _displaycontrol;

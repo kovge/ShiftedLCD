@@ -24,24 +24,38 @@
 // can't assume that its in that state when a sketch starts (and the
 // LiquidCrystal constructor is called).
 
-LiquidCrystal::LiquidCrystal(uint8_t ssPin) //SPI  ##############################
+// Default Hookup Between Arduino and 74HC595: 
+// Arduino D9 -> latch pin/ST_CP of 74HC595 (12)
+// Arduino D13 -> clock pin/SH_CP of 74HC595 (11)
+// Arduino D11 -> data pin/DS of 74HC595 (14)
+
+LiquidCrystal::LiquidCrystal(uint8_t latchPin, uint8_t clockPin, uint8_t dataPin) //Arduino Pins setup #################
 {
-  initSPI(ssPin);
   //shiftRegister pins 1,2,3,4,5,6,7 represent rs, rw, enable, d4-7 in that order
   //but we are not using RW so RW it's zero or 255
+  
+  _latchPin = latchPin;
+  _clockPin = clockPin;
+  _dataPin = dataPin;
+  initSPI();
 }
 
-
-void LiquidCrystal::initSPI(uint8_t ssPin) //SPI ##########################################
+LiquidCrystal::LiquidCrystal(uint8_t latchPin) //Only Arduino latch Pin setup to be compatible with previous version ####
 {
-    // initialize SPI:
+  //shiftRegister pins 1,2,3,4,5,6,7 represent rs, rw, enable, d4-7 in that order
+  //but we are not using RW so RW it's zero or 255
+  
+  _latchPin = latchPin;
+  _clockPin = 13;
+  _dataPin = 11;
+  initSPI();
+}
 
-	_latchPin = ssPin;
-	pinMode (_latchPin, OUTPUT); //just in case _latchPin is not 10 or 53 set it to output 
-								 //otherwise SPI.begin() will set it to output but just in case
-		
-	SPI.begin(); 
-	
+void LiquidCrystal::initSPI() {
+  //set pins to output 
+  pinMode(_latchPin, OUTPUT);
+  pinMode(_clockPin, OUTPUT);
+  pinMode(_dataPin, OUTPUT);
 }
 
 void LiquidCrystal::begin(uint8_t cols, uint8_t lines, uint8_t dotsize) {
@@ -260,8 +274,6 @@ void LiquidCrystal::write4bits(uint8_t value) {
 void LiquidCrystal::spiSendOut() //SPI #############################
 {
   digitalWrite(_latchPin, LOW);
-  SPI.beginTransaction(SPISettings(8000000, MSBFIRST, SPI_MODE0));
-  SPI.transfer(_bitString);
-  SPI.endTransaction();
-  digitalWrite(_latchPin, HIGH); 
+  shiftOut(_dataPin, _clockPin, MSBFIRST, _bitString);
+  digitalWrite(_latchPin, HIGH);
 }

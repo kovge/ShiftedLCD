@@ -1,7 +1,7 @@
 /*
   ShiftedLCD Library - Hello World
  
- Demonstrates the use a 16x2 LCD display with SPI Shift Register.
+ Demonstrates the use a 16x2 LCD display with a Shift Register.
  Library works with LCD displays that are modified to use 
  595 Shift Register (in this case 74HC595) pin compatible.
  
@@ -10,7 +10,8 @@
  
  You can easily add Shift Register to your LCD
  Please refer below link for pinouts and modifing your LCD
-
+ https://github.com/kovge/ShiftedLCD
+ forked from:
  https://github.com/omersiar/ShiftedLCD
 
  
@@ -26,17 +27,18 @@
  by Juan Hernandez
  modified 16 Nov 2016
  by Ömer Şiar Baysal
+ modified 08 Jan 2021
+ by Gergely Kovács
  
  This example code is in the public domain.
  */
 
 // include the library code:
 #include <ShiftedLCD.h>
-#include <SPI.h>
 
-// initialize the library with the number of the sspin 
+// initialize the library with the number of the latch pin of the 74HC595 
 // (or the latch pin of the 74HC595)
-LiquidCrystal lcd(8);
+LiquidCrystal lcd(9);
 
 void setup() {
   // set up the LCD's number of columns and rows: 
@@ -51,4 +53,6 @@ void loop() {
   lcd.setCursor(0, 1);
   // print the number of seconds since reset:
   lcd.print(millis()/1000);
+  // lets wait a bit 
+  delay(100);
 }

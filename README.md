@@ -1,18 +1,24 @@
 = ShiftedLCD Library for Arduino =
 
-Allows communication via SPI Bus with alphanumerical liquid crystal displays (LCDs). 
+Allows communication via Shift registers with alphanumerical liquid crystal displays (LCDs). 
 This library works with LCD displays that are modified to use 595 Shift Register (in this case 74HC595) pin compatible. 
 You can easily add Shift Register to your LCD. Please refer below link for pinouts and modifing your LCD.
 
-I had a spare 1602 LCD that laying around for a long time , bare LCD that you can connect it to your Arduino in parallel.
-I wanted to reduce used pins, and I have already working on my other project featuring SPI bus, it was good practice to
-use them together on SPI bus. Old Libraries that supports Register Shift IC did not satisfied my needs. So I forked Juan Hernandez's (juanh0238) work, and this Library was born.
+As this was the most modern coded LCD shift register library i found at this time on Github,
+I decuded to fork this project from omersiar to have a "native" shift register - LCD library. 
+I removed here the SPI support, as for me was more important to be free to configure arduino pins and using as less
+libraries as possible.
+
+This version of the library is modified thatfor to be able to add LCD support to an existing arduino project,
+even if there are only a few pin (and resources) left.
+
+This librarly basicly "compatible" with the original fork in 1 LCD envirolment if no special SPI feature is in use.
 
 This is SPI only library, parallel and other buses (I2C or 1Wire, etc) are not supported.
 
 Download ZIP file from here to Import to Arduino IDE:
 
-https://github.com/omersiar/ShiftedLCD/archive/v1.zip
+https://github.com/kovge/ShiftedLCD/archive/master.zip
 
 Thanks Stan from 42bots.com for great, clean article and illustration.
 
@@ -26,7 +32,7 @@ What Works
 
 * It seems we can use all LiquidCrystal commands
 * Hello World Example
-* Concurrent SPI slaves
+* Directly Hooked up with a shift register, pin configurations is completely up on you
 
 TODO
 
@@ -34,7 +40,7 @@ TODO
 
 [X] Arduino IDE 1.6 modern structure
 
-[  ] Bug Fixes
+[ ] Bug Fixes
 
 
 == License ==
