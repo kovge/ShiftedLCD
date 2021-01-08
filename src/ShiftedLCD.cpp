@@ -256,7 +256,7 @@ void LiquidCrystal::pulseEnable(void) {
 	delayMicroseconds(1);    // enable pulse must be >450ns
 	bitWrite(_bitString, 3, LOW); 
     spiSendOut();
-	delayMicroseconds(40);   // commands need > 37us to settle
+	delayMicroseconds(100);   // commands need > 37us to settle
 }
 
 void LiquidCrystal::write4bits(uint8_t value) {
