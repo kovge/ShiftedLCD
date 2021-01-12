@@ -29,25 +29,46 @@
 // Arduino D13 -> clock pin/SH_CP of 74HC595 (11)
 // Arduino D11 -> data pin/DS of 74HC595 (14)
 
-LiquidCrystal::LiquidCrystal(uint8_t latchPin, uint8_t clockPin, uint8_t dataPin) //Arduino Pins setup #################
+LiquidCrystal::LiquidCrystal(uint8_t latchPin, uint8_t clockPin, uint8_t dataPin, uint8_t flip) //Arduino Pins setup #################
 {
   //shiftRegister pins 1,2,3,4,5,6,7 represent rs, rw, enable, d4-7 in that order
+  //shiftRegister pins 1,2,3,4,5,6,7 represent d7-4, enable, rw, rs  in that order
   //but we are not using RW so RW it's zero or 255
   
   _latchPin = latchPin;
   _clockPin = clockPin;
   _dataPin = dataPin;
+  if( flip > 0 ){
+    _flip = 1;
+  }else{
+    _flip = 0;
+  }
+  initSPI();
+}
+
+LiquidCrystal::LiquidCrystal(uint8_t latchPin, uint8_t clockPin, uint8_t dataPin) //Arduino Pins setup #################
+{
+  //shiftRegister pins 1,2,3,4,5,6,7 represent rs, rw, enable, d4-7 in that order
+  //shiftRegister pins 1,2,3,4,5,6,7 represent d7-4, enable, rw, rs  in that order
+  //but we are not using RW so RW it's zero or 255
+  
+  _latchPin = latchPin;
+  _clockPin = clockPin;
+  _dataPin = dataPin;
+  _flip = 0;
   initSPI();
 }
 
 LiquidCrystal::LiquidCrystal(uint8_t latchPin) //Only Arduino latch Pin setup to be compatible with previous version ####
 {
   //shiftRegister pins 1,2,3,4,5,6,7 represent rs, rw, enable, d4-7 in that order
+  //shiftRegister pins 1,2,3,4,5,6,7 represent d7-4, enable, rw, rs  in that order
   //but we are not using RW so RW it's zero or 255
   
   _latchPin = latchPin;
   _clockPin = 13;
   _dataPin = 11;
+  _flip = 0;
   initSPI();
 }
 
@@ -56,6 +77,15 @@ void LiquidCrystal::initSPI() {
   pinMode(_latchPin, OUTPUT);
   pinMode(_clockPin, OUTPUT);
   pinMode(_dataPin, OUTPUT);
+  _rs_index = 1 - _flip;
+  _e_index = 3 - _flip;
+  _d_start = 4 - _flip;
+  _d_end = 8 - _flip;
+  if( _flip == 0 ){
+    _bit_order = MSBFIRST;
+  }else{
+    _bit_order = LSBFIRST;
+  }
 }
 
 void LiquidCrystal::begin(uint8_t cols, uint8_t lines, uint8_t dotsize) {
@@ -239,7 +269,7 @@ inline size_t LiquidCrystal::write(uint8_t value) {
 
 // write either command or data, with automatic 4/8-bit selection
 void LiquidCrystal::send(uint8_t value, uint8_t mode) {
-    bitWrite(_bitString, 1, mode); //set RS to mode
+    bitWrite(_bitString, _rs_index, mode); //set RS to mode
     spiSendOut();    
 	//we are not using RW with SPI so we are not even bothering
 	//or 8BITMODE so we go straight to write4bits
@@ -248,22 +278,22 @@ void LiquidCrystal::send(uint8_t value, uint8_t mode) {
 }
 
 void LiquidCrystal::pulseEnable(void) {
-    bitWrite(_bitString, 3, LOW); 
+    bitWrite(_bitString, _e_index, LOW); 
     spiSendOut();
 	delayMicroseconds(1); 
-	bitWrite(_bitString, 3, HIGH); 
+	bitWrite(_bitString, _e_index, HIGH); 
     spiSendOut();
 	delayMicroseconds(1);    // enable pulse must be >450ns
-	bitWrite(_bitString, 3, LOW); 
+	bitWrite(_bitString, _e_index, LOW); 
     spiSendOut();
 	delayMicroseconds(100);   // commands need > 37us to settle
 }
 
 void LiquidCrystal::write4bits(uint8_t value) {
-    for (int i = 4; i < 8; i++)
+    for (int i = _d_start; i < _d_end; i++)
 	{
 	  //we put the four bits in the _bit_string
-	  bitWrite(_bitString, i, ((value >> (i - 4)) & 0x01)); 
+	  bitWrite(_bitString, i, ((value >> (i - _d_start)) & 0x01)); 
 	}
 	//and send it out
 	spiSendOut();
@@ -274,6 +304,6 @@ void LiquidCrystal::write4bits(uint8_t value) {
 void LiquidCrystal::spiSendOut() //SPI #############################
 {
   digitalWrite(_latchPin, LOW);
-  shiftOut(_dataPin, _clockPin, MSBFIRST, _bitString);
+  shiftOut(_dataPin, _clockPin, _bit_order, _bitString);
   digitalWrite(_latchPin, HIGH);
 }

@@ -45,6 +45,8 @@
 class LiquidCrystal : public Print {
 public:
   //Pins to ShiftRegister 74HC595, in order ST_CP, SH_CP, DS. 74HC595 Pinout in order: 12, 11, 14   ##############
+  LiquidCrystal(uint8_t latchPin, uint8_t clockPin, uint8_t dataPin, uint8_t flip); 	// Arduino Pins Hooked up to 74HC595 #####
+  //Pins to ShiftRegister 74HC595, in order ST_CP, SH_CP, DS. 74HC595 Pinout in order: 12, 11, 14   ##############
   LiquidCrystal(uint8_t latchPin, uint8_t clockPin, uint8_t dataPin); 	// Arduino Pins Hooked up to 74HC595 #####
   // default clockPin is 13, default dataPin is 11 on Arduino
   LiquidCrystal(uint8_t latchPin);    
@@ -83,6 +85,13 @@ private:
   uint8_t _latchPin;	//Pin connected to ST_CP of 74HC595
   uint8_t _clockPin;	//Pin connected to SH_CP of 74HC595
   uint8_t _dataPin;	//Pin connected to DS of 74HC595
+
+  uint8_t _flip;
+  uint8_t _rs_index;
+  uint8_t _e_index;
+  uint8_t _d_start;
+  uint8_t _d_end;
+  uint8_t _bit_order;
   
   uint8_t _displayfunction;
   uint8_t _displaycontrol;
