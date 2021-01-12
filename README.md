@@ -19,7 +19,7 @@ This is SPI only library, parallel and other buses (I2C or 1Wire, etc) are not s
 
 Download ZIP file from here to Import to Arduino IDE:
 
-https://github.com/kovge/ShiftedLCD/archive/master.zip
+https://github.com/kovge/ShiftedLCD/archive/v0.0.4.zip
 
 Thanks Stan from 42bots.com for great, clean article and illustration.
 
